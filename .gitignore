@@ -1,0 +1,198 @@
+# ==========================================
+# SecureCrypt .gitignore
+# ==========================================
+
+# ===== SECURITY - NEVER COMMIT THESE =====
+.env
+.env.*
+*.env
+.env.local
+.env.production
+.env.staging
+
+# Secret keys and credentials
+secrets/
+*.key
+*.pem
+*.cert
+*.crt
+*.p12
+*.pfx
+
+# ===== Python =====
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ===== IDEs and Editors =====
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ===== Operating Systems =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+
+# ===== Logs and Databases =====
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# Application logs
+logs/
+*.log.*
+access.log
+error.log
+
+# ===== Temporary Files =====
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+*.backup
+
+# ===== Project Specific =====
+# Don't commit instance folder
+instance/
+
+# Flask stuff
+.webassets-cache
+.flask_session/
+
+# Static files (if generated)
+staticfiles/
+static_collected/
+
+# Media uploads (if any)
+media/
+uploads/
+
+# ===== Documentation =====
+# Sphinx documentation
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# ===== Deployment =====
+# Docker
+docker-compose.override.yml
+
+# CI/CD
+.gitlab-ci.local.yml
+
+# ===== Dependencies =====
+# Node modules (if any frontend build)
+node_modules/
+package-lock.json
+yarn.lock
+
+# ===== Jupyter Notebooks =====
+.ipynb_checkpoints/
+*.ipynb
+
+# ===== Other =====
+*.pid
+celerybeat-schedule
+celerybeat.pid
+
+# Ignore SSL certificates in dev
+*.local.crt
+*.local.key
+
+# Ignore backup files
+*.orig
+
+# ==========================================
+# IMPORTANT NOTES:
+# ==========================================
+# 1. NEVER commit .env files or SECRET_KEY
+# 2. NEVER commit credentials or API keys
+# 3. NEVER commit SSL certificates
+# 4. Always review before committing
+# ==========================================

@@ -1,0 +1,49 @@
+# SecureCrypt - Production Requirements
+# Last Updated: January 2026
+# Python 3.9+ required
+
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# CORS Support
+Flask-Cors==4.0.0
+
+# Cryptography (Modern, Maintained Library)
+cryptography==42.0.0
+
+# Legacy Crypto Support (PyCryptodome, NOT pycrypto which is abandoned)
+pycryptodome==3.19.0
+
+# Production WSGI Server (DO NOT use Flask dev server in production)
+gunicorn==21.2.0
+
+# Optional: Redis for distributed rate limiting (production)
+# redis==5.0.1
+# flask-limiter==3.5.0
+
+# Development/Testing Dependencies (install separately)
+# pytest==7.4.3
+# pytest-cov==4.1.0
+# bandit==1.7.5
+# safety==3.0.1
+
+
+# ============================================
+# SECURITY NOTES:
+# ============================================
+# 1. REMOVED: pycrypto (abandoned, use pycryptodome)
+# 2. cryptography library is actively maintained and audited
+# 3. Always check for security advisories before updating
+# 4. Use pip-audit or safety to scan for vulnerabilities
+# 5. Pin exact versions for reproducible builds
+#
+# Update Check:
+#   pip list --outdated
+#   pip-audit
+#   safety check
+#
+# Installation:
+#   pip install -r requirements.txt
+#
+# ============================================
