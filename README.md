@@ -1,358 +1,178 @@
-# 🔒 SecureCrypt - Production-Grade Cryptographic Web Application
+# SecureCrypt – Production-Grade Cryptographic Web Application
 
-Enterprise-level secure cryptographic system with zero data persistence, modern encryption algorithms, and comprehensive security controls.
+## Abstract / Overview
+I built SecureCrypt as a security-first web application that delivers modern cryptography through a clean browser-based interface. The system focuses on strong encryption options, authenticated sessions, and zero persistent storage so that sensitive data remains in memory only. It provides both symmetric encryption (AES-256-GCM, ChaCha20, Camellia, and legacy ciphers) and asymmetric RSA key management, all wrapped in a Flask API with strict security controls and input validation.
 
-## ✨ Features
+## Problem Statement
+Many lightweight encryption tools either store data or rely on outdated algorithms and weak operational safeguards. The goal here is to offer a secure, production-ready cryptographic web application that prevents common security pitfalls such as weak key derivation, insecure session handling, and lack of input validation.
 
-### Cryptographic Algorithms
-- **AES-256-GCM** (Recommended) - Authenticated encryption
-- **ChaCha20-Poly1305** (Recommended) - Modern stream cipher
-- **Camellia-256-CBC** - Alternative block cipher
-- **RSA-2048-OAEP** - Asymmetric encryption with hybrid mode
-- **Triple DES (3DES)** - Legacy support only
-- **Blowfish** - Historical compatibility
-- **Twofish** - Advanced symmetric encryption
+## Objectives
+- Deliver modern encryption and decryption capabilities with authenticated and validated endpoints.
+- Enforce strong user authentication with secure password hashing and session controls.
+- Avoid data persistence by keeping all user and key data in memory only.
+- Provide a simple, web-based UI so encryption workflows are accessible to non-experts.
+- Apply production-grade security best practices (CSRF protection, rate limiting, and security headers).
 
-### Security Features
-✅ Zero persistent storage (memory-only)  
-✅ PBKDF2-SHA256 with 600,000 iterations  
-✅ Unique salts per encryption operation  
-✅ CSRF protection on all state-changing operations  
-✅ Rate limiting (IP + user-based)  
-✅ Comprehensive input validation  
-✅ Security headers (CSP, HSTS, X-Frame-Options)  
-✅ Constant-time cryptographic operations  
-✅ Session security (HTTPOnly, Secure, SameSite=Strict)  
-✅ Enhanced password requirements (12+ chars, special chars)  
-✅ No debug mode or information leakage  
+## Scope of the Project
+The scope includes:
+- A Flask-based API for authentication, crypto operations, and RSA key management.
+- A single-page HTML UI served from the backend.
+- In-memory storage for user accounts, session state, and cryptographic keys.
+- Clear configuration for development vs. production security settings.
 
-## 🚀 Quick Start
+The project intentionally excludes persistent databases, file uploads, or external storage to reduce attack surface.
 
-### Prerequisites
-- Python 3.9 or higher
-- pip package manager
-- Virtual environment (recommended)
-
-### Installation
-
-1. **Clone or extract the project**
-```bash
-cd securecrypt
+## Project Structure
 ```
-
-2. **Create virtual environment**
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-4. **Set environment variables**
-```bash
-export FLASK_ENV=development  # Use 'production' for production
-export SECRET_KEY=$(python3 -c "import secrets; print(secrets.token_hex(32))")
-export CORS_ORIGINS=http://localhost:5000/api
-```
-
-5. **Run application**
-```bash
-# Development (testing only)
-python main.py
-
-# Production (recommended)
-gunicorn -w 4 -b 0.0.0.0:8000 'main:create_app()'
-```
-
-6. **Access application**
-```
-http://localhost:5000/api (development)
-http://localhost:8000 (production with gunicorn)
-```
-
-## 🏗️ Project Structure
-
-```
-securecrypt/
+EncryptX/
 ├── main.py                 # Application entry point
-├── config.py              # Secure configuration
-├── requirements.txt       # Python dependencies
+├── config.py               # Security-focused configuration
+├── requirements.txt        # Python dependencies
 ├── models/
-│   ├── __init__.py
-│   └── user.py           # User management (in-memory)
+│   └── user.py             # In-memory user and key manager
 ├── routes/
-│   ├── __init__.py
-│   ├── auth_routes.py    # Authentication endpoints
-│   └── crypto_routes.py  # Cryptography endpoints
+│   ├── auth_routes.py      # Authentication endpoints
+│   └── crypto_routes.py    # Cryptography endpoints
 ├── services/
-│   ├── __init__.py
-│   ├── auth_service.py   # Password hashing, verification
-│   └── crypto_service.py # Encryption/decryption operations
+│   ├── auth_service.py     # Password hashing and verification
+│   └── crypto_service.py   # Encryption/decryption operations
 ├── utils/
-│   ├── __init__.py
-│   ├── decorators.py     # Security decorators
-│   └── validators.py     # Input validation
+│   ├── decorators.py       # Security decorators (CSRF, rate limit)
+│   └── validators.py       # Input validation and sanitization
 └── templates/
-    ├── __init__.py
-    └── html_template.py  # Frontend UI
+    └── html_template.py    # Embedded single-page UI
 ```
 
-## 🔐 API Endpoints
+## System Architecture (text-based explanation)
+1. **Client UI**: A single HTML/JS interface handles login, encryption/decryption actions, RSA key generation, and settings.
+2. **Flask Application Layer**: The Flask app registers authentication and cryptography blueprints and enforces global security headers.
+3. **Security Middleware**: Custom decorators handle authentication checks, rate limiting, CSRF protection, and JSON enforcement.
+4. **Service Layer**: Dedicated services implement password hashing and cryptographic operations.
+5. **In-Memory Data Store**: A singleton user manager keeps user data and RSA keys in memory only, clearing keys on logout.
 
-### Authentication
-- `POST /api/register` - Register new user
-- `POST /api/login` - User login
-- `POST /api/logout` - User logout (requires auth + CSRF)
-- `POST /api/change-password` - Change password (requires auth + CSRF)
-- `GET /api/status` - Check auth status
-- `GET /api/csrf-token` - Get CSRF token
+## Technologies and Tools Used
+- **Python 3.9+** for the core application logic.
+- **Flask** as the web framework and routing layer.
+- **Flask-CORS** for controlled cross-origin access.
+- **cryptography** for modern cryptographic primitives.
+- **pycryptodome** for legacy cipher support (3DES and Blowfish).
+- **HTML/CSS/JavaScript** for the single-page client interface.
 
-### Cryptography
-- `POST /api/encrypt` - Encrypt data (requires auth + CSRF)
-- `POST /api/decrypt` - Decrypt data (requires auth + CSRF)
-- `POST /api/generate-rsa-keys` - Generate RSA keypair (requires auth + CSRF)
-- `GET /api/get-public-key` - Get user's public key
-- `POST /api/import-public-key` - Import public key (requires auth + CSRF)
-- `POST /api/encrypt-with-imported-key` - Encrypt with imported key (requires auth + CSRF)
-- `GET /api/list-imported-keys` - List imported keys
-- `POST /api/delete-imported-key` - Delete imported key (requires auth + CSRF)
+## Security Instructions and Cryptographic Algorithms
+### Security Controls Implemented
+- **No persistent storage**: all user data and keys are kept in memory and cleared on logout.
+- **PBKDF2-SHA256 (600k iterations)** for password hashing and key derivation.
+- **Per-operation salts** for encryption key derivation to prevent reuse attacks.
+- **CSRF protection** for all state-changing endpoints.
+- **Rate limiting** based on IP and user session.
+- **Security headers** including CSP, HSTS, X-Frame-Options, and related policies.
+- **Strict session settings** (HTTPOnly, Secure, SameSite=Strict).
+- **Input validation and sanitization** on all user-provided data.
 
-### Health Check
-- `GET /health` - Application health status
+### Algorithms Used
+- **AES-256-GCM** (recommended)
+- **ChaCha20** (recommended)
+- **Camellia-256-CBC**
+- **RSA-2048 with OAEP** (hybrid encryption for larger messages)
+- **Triple DES (3DES)** (legacy support)
+- **Blowfish** (legacy support)
+- **Twofish** (simulated with AES-CBC for compatibility)
 
-## 🛡️ Security Configuration
+## Methodology / Working Flow
+1. User registers or logs in with strong password requirements.
+2. The server creates a secure session and issues a CSRF token.
+3. The client sends encryption/decryption requests with validated inputs.
+4. The crypto service performs algorithm-specific operations (with PBKDF2 key derivation and per-operation salts).
+5. Results are returned to the UI, with no sensitive data written to disk.
 
-### Production Environment Setup
+## Key Features
+- Strong password rules with PBKDF2-SHA256 (600k iterations).
+- AES-256-GCM and ChaCha20 as recommended encryption options.
+- RSA-2048 key generation with hybrid encryption for larger payloads.
+- CSRF protection on all state-changing endpoints.
+- Rate limiting by IP and user session.
+- Comprehensive input validation and sanitization.
+- Secure session management with strict cookie settings.
+- No data persistence and explicit key cleanup on logout.
 
-1. **Generate strong secret key**
-```bash
-export SECRET_KEY=$(python3 -c "import secrets; print(secrets.token_hex(32))")
-```
+## How to Use (Quick Guide)
+### Setup (Development)
+1. Create and activate a virtual environment.
+2. Install dependencies from `requirements.txt`.
+3. Set `APP_ENV=development` for local testing.
+4. Run the server with `python main.py`.
+5. Open `http://localhost:5000` in the browser.
 
-2. **Configure CORS origins**
-```bash
-export CORS_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
-```
+### Setup and Run Steps (Detailed)
+1. **Clone or open the repository**:
+   ```bash
+   cd /path/to/EncryptX
+   ```
+2. **Create and activate a virtual environment**:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # Windows: venv\\Scripts\\activate
+   ```
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Set environment variables (development)**:
+   ```bash
+   export APP_ENV=development  # Windows PowerShell: $env:APP_ENV="development"
+   ```
+5. **Run the application**:
+   ```bash
+   python main.py
+   ```
+6. **Open in browser**:
+   - http://localhost:5000
 
-3. **Use HTTPS only**
-- Deploy behind nginx/Apache with SSL/TLS
-- Let's Encrypt for free certificates
-- Ensure `SESSION_COOKIE_SECURE=True` is set
+### Basic Usage
+1. **Register or Login** with a strong password (12+ chars, mixed case, number, special char).
+2. **Encrypt**: Select an algorithm, provide a key (except RSA), enter plaintext, and click Encrypt.
+3. **Decrypt**: Paste ciphertext, keep the same algorithm/key, and click Decrypt.
+4. **RSA Flow**: Generate keys, share the public key, and use RSA encryption for secure exchange.
+5. **Logout**: Clears in-memory keys and session data.
 
-4. **Use production WSGI server**
-```bash
-# DO NOT use Flask dev server in production
-gunicorn -w 4 -b 127.0.0.1:8000 'main:create_app()' \
-  --access-logfile /var/log/gunicorn/access.log \
-  --error-logfile /var/log/gunicorn/error.log \
-  --log-level info
-```
+## Implementation Details (high-level)
+- **Application Factory**: The Flask app is created via a factory function and loads configuration based on environment variables.
+- **Auth & Crypto Blueprints**: Authentication and encryption endpoints are separated for clarity and security boundaries.
+- **Security Decorators**: Rate limiting, CSRF checks, and login validation are enforced as decorators around API routes.
+- **Key Management**: RSA keys and imported public keys are stored only in memory and cleared on logout.
+- **Frontend UI**: The HTML template is embedded in the backend and includes a JS client for API calls and UI state.
 
-### nginx Configuration Example
+## Challenges Faced and Solutions
+- **Secure key derivation**: Addressed by using PBKDF2-SHA256 with high iteration counts and per-operation salts.
+- **Avoiding data persistence**: Solved by implementing a memory-only user manager and clearing keys on logout.
+- **Balancing usability with security**: Implemented a web UI that still enforces strict validation, CSRF tokens, and rate limits.
 
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name yourdomain.com;
-    
-    # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers HIGH:!aNULL:!MD5;
-    ssl_prefer_server_ciphers on;
-    
-    # Security Headers
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-    add_header X-Frame-Options "DENY" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    
-    # Proxy to Gunicorn
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-    }
-    
-    # Static files (if any)
-    location /static {
-        alias /path/to/static;
-        expires 30d;
-    }
-}
+## Troubleshooting
+### 404 Not Found
+- Confirm the server is running without errors in the terminal.
+- Use the correct URL:
+  - Main UI: `http://localhost:5000/`
+  - Health check: `http://localhost:5000/health`
+- If you started the app on a different port, update the URL accordingly.
+- Clear the browser cache or open a private window if the UI does not load.
+- Ensure no proxy or firewall is blocking localhost traffic.
 
-# HTTP to HTTPS redirect
-server {
-    listen 80;
-    server_name yourdomain.com;
-    return 301 https://$server_name$request_uri;
-}
-```
+## Results / Outcomes
+The project delivers a production-ready cryptographic web application with modern encryption algorithms, hardened security controls, and zero data persistence. Users can securely register, authenticate, generate keys, encrypt/decrypt data, and manage imported RSA keys without any sensitive information being stored on disk.
 
-## 📋 Usage Guide
+## Why Use SecureCrypt (Advantages)
+- **Security-first defaults**: strong KDF, CSRF protection, rate limiting, and strict headers.
+- **Zero persistence**: sensitive keys and user data never touch disk.
+- **Modern crypto options**: AES-256-GCM and ChaCha20 for recommended usage, RSA for key exchange.
+- **Clear UX**: a single-page UI reduces workflow friction without lowering security.
+- **Production-ready posture**: environment-based config, strict session settings, and safe error handling.
 
-### Registration
-1. Open application in browser
-2. Click "Register" tab
-3. Enter username (3-50 chars, alphanumeric + underscore)
-4. Enter password (12+ chars, uppercase, lowercase, number, special char)
-5. Confirm password
-6. Click "Register" - automatic login after success
+## Future Enhancements
+- Add audit logging with strict redaction to avoid sensitive data exposure.
+- Introduce optional multi-factor authentication for higher-assurance environments.
+- Integrate external rate limiting (Redis) for distributed deployments.
+- Expand test coverage for cryptographic edge cases and security regressions.
+- Add a modular UI build pipeline instead of embedded HTML.
 
-### Password Requirements
-- Minimum 12 characters
-- At least one uppercase letter (A-Z)
-- At least one lowercase letter (a-z)
-- At least one number (0-9)
-- At least one special character (!@#$%^&*...)
-- Cannot be common weak passwords
-
-### Encryption/Decryption
-1. Log in to application
-2. Select algorithm (AES-256-GCM recommended)
-3. Enter encryption key (minimum 8 characters)
-4. Enter plaintext in input box
-5. Click "Encrypt"
-6. Copy ciphertext from output box
-7. To decrypt: paste ciphertext, enter same key, click "Decrypt"
-
-### RSA Encryption
-1. Click "Generate RSA Keys" button
-2. For encrypting to yourself: select "Use My Keys"
-3. For encrypting to others: import their public key first
-4. Enter plaintext and click "Encrypt"
-5. Share ciphertext with recipient (only they can decrypt with private key)
-
-## 🧪 Testing
-
-### Manual Security Testing
-```bash
-# Install testing tools
-pip install pytest pytest-cov bandit safety
-
-# Run security scanner
-bandit -r . -ll
-
-# Check for vulnerable dependencies
-safety check
-
-# Run tests (if test suite exists)
-pytest tests/ -v --cov
-```
-
-### Penetration Testing Checklist
-- [ ] Test rate limiting (try 10+ rapid requests)
-- [ ] Test CSRF protection (requests without token)
-- [ ] Test input validation (XSS payloads, SQL injection)
-- [ ] Test session security (cookie flags, expiry)
-- [ ] Test cryptographic operations (algorithm correctness)
-- [ ] Test authentication (weak passwords, wrong credentials)
-- [ ] Test error handling (generic messages, no leakage)
-
-## 🔒 Security Best Practices
-
-### For Users
-1. Use strong, unique passwords
-2. Never share your private RSA key
-3. Always verify recipient's public key before importing
-4. Use AES-256-GCM or ChaCha20 for maximum security
-5. Avoid legacy algorithms (3DES, Blowfish) unless required
-6. Log out when finished to clear keys from memory
-
-### For Administrators
-1. Always use HTTPS in production
-2. Keep dependencies updated (`pip list --outdated`)
-3. Monitor for security advisories
-4. Regular security audits
-5. Implement proper logging (no sensitive data)
-6. Use Redis for rate limiting in clustered environments
-7. Regular backups (though no data persists)
-8. Monitor rate limit violations
-9. Review error logs for attack patterns
-
-## 🚨 Incident Response
-
-If security issue discovered:
-1. Disable affected functionality immediately
-2. Notify security team and users
-3. Investigate root cause
-4. Deploy fix and test thoroughly
-5. Document in post-mortem
-6. Enhance monitoring
-
-## 📊 Performance
-
-- PBKDF2 (600k iterations): ~200ms per operation
-- AES-256-GCM encryption: <5ms for typical payloads
-- RSA-2048 generation: ~500ms
-- Session validation: <1ms
-- Rate limiting: <1ms overhead
-
-## 🐛 Troubleshooting
-
-### "CSRF token missing" error
-- Ensure you're logged in
-- Frontend should send `X-CSRF-Token` header
-- Token obtained from `/api/csrf-token` or login/register response
-
-### "Rate limit exceeded" error
-- Wait the specified time (5 minutes for auth, 1 minute for crypto)
-- Don't spam requests
-- Check if IP is shared (VPN, proxy)
-
-### "Decryption failed" error
-- Verify you're using the same key used for encryption
-- Check algorithm matches
-- Ensure ciphertext wasn't modified or corrupted
-- For RSA: ensure you have the correct private key
-
-### "Session expired" error
-- Re-login (sessions expire after 30 minutes of inactivity)
-- Check system clock is correct
-
-## 📚 Additional Resources
-
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [NIST Cryptographic Standards](https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines)
-- [Flask Security Best Practices](https://flask.palletsprojects.com/en/latest/security/)
-- [Python Cryptography Documentation](https://cryptography.io/)
-
-## 📄 License
-
-This is a security-focused educational and production-ready application. Use responsibly and ensure compliance with local regulations regarding cryptography.
-
-## 🤝 Contributing
-
-Security improvements welcome! Please:
-1. Open issue first to discuss
-2. Follow existing code style
-3. Add tests for new features
-4. Update documentation
-5. Security fixes get priority
-
-## ⚠️ Disclaimer
-
-This application provides cryptographic tools. While it implements industry-standard security practices:
-- Always keep software updated
-- Use HTTPS in production
-- Follow security best practices
-- Regular security audits recommended
-- No warranty provided
-
-## 📞 Support
-
-For security issues: Report privately to security team  
-For bugs: Open GitHub issue  
-For questions: Check documentation first
-
----
-
-**Version:** 2.0 (Security Hardened)  
-**Last Updated:** January 2026  
-**Status:** Production-Ready ✅
+## Conclusion
+SecureCrypt meets the goal of providing a secure, production-grade cryptographic web application that prioritizes strong security defaults, modern encryption, and no persistent storage. The design balances usability with strict security controls, making it suitable for secure workflows where confidentiality is critical.
