@@ -126,7 +126,7 @@ EncryptX/
    python main.py
    ```
 6. **Open in browser**:
-   - http://localhost:5000
+   - http://localhost:5000/api
 
 ### Basic Usage
 1. **Register or Login** with a strong password (12+ chars, mixed case, number, special char).
@@ -151,7 +151,7 @@ EncryptX/
 ### 404 Not Found
 - Confirm the server is running without errors in the terminal.
 - Use the correct URL:
-  - Main UI: `http://localhost:5000/`
+  - Main UI: `http://localhost:5000/api`
   - Health check: `http://localhost:5000/health`
 - If you started the app on a different port, update the URL accordingly.
 - Clear the browser cache or open a private window if the UI does not load.
