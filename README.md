@@ -1,7 +1,7 @@
-# SecureCrypt – Production-Grade Cryptographic Web Application
+# EncryptX – Cryptographic Web Application
 
 ## Abstract / Overview
-I built SecureCrypt as a security-first web application that delivers modern cryptography through a clean browser-based interface. The system focuses on strong encryption options, authenticated sessions, and zero persistent storage so that sensitive data remains in memory only. It provides both symmetric encryption (AES-256-GCM, ChaCha20, Camellia, and legacy ciphers) and asymmetric RSA key management, all wrapped in a Flask API with strict security controls and input validation.
+I built EncryptX as a security-first web application that delivers modern cryptography through a clean browser-based interface. The system focuses on strong encryption options, authenticated sessions, and zero persistent storage so that sensitive data remains in memory only. It provides both symmetric encryption (AES-256-GCM, ChaCha20, Camellia, and legacy ciphers) and asymmetric RSA key management, all wrapped in a Flask API with strict security controls and input validation.
 
 ## Problem Statement
 Many lightweight encryption tools either store data or rely on outdated algorithms and weak operational safeguards. The goal here is to offer a secure, production-ready cryptographic web application that prevents common security pitfalls such as weak key derivation, insecure session handling, and lack of input validation.
@@ -101,7 +101,7 @@ EncryptX/
 2. Install dependencies from `requirements.txt`.
 3. Set `APP_ENV=development` for local testing.
 4. Run the server with `python main.py`.
-5. Open `http://localhost:5000` in the browser.
+5. Open `http://localhost:5000/api` in the browser.
 
 ### Setup and Run Steps (Detailed)
 1. **Clone or open the repository**:
