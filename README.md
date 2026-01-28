@@ -4,21 +4,21 @@
 I built EncryptX as a security-first web application that delivers modern cryptography through a clean browser-based interface. The system focuses on strong encryption options, authenticated sessions, and zero persistent storage so that sensitive data remains in memory only. It provides both symmetric encryption (AES-256-GCM, ChaCha20, Camellia, and legacy ciphers) and asymmetric RSA key management, all wrapped in a Flask API with strict security controls and input validation.
 
 ## Problem Statement
-Many lightweight encryption tools either store data or rely on outdated algorithms and weak operational safeguards. The goal here is to offer a secure, production-ready cryptographic web application that prevents common security pitfalls such as weak key derivation, insecure session handling, and lack of input validation.
+Many lightweight encryption tools either store data or rely on outdated algorithms and weak operational safeguards. The goal here is to offer a secure cryptographic web application that prevents common security pitfalls such as weak key derivation, insecure session handling, and lack of input validation.
 
 ## Objectives
 - Deliver modern encryption and decryption capabilities with authenticated and validated endpoints.
 - Enforce strong user authentication with secure password hashing and session controls.
 - Avoid data persistence by keeping all user and key data in memory only.
 - Provide a simple, web-based UI so encryption workflows are accessible to non-experts.
-- Apply production-grade security best practices (CSRF protection, rate limiting, and security headers).
+- Apply strong security best practices (CSRF protection, rate limiting, and security headers).
 
 ## Scope of the Project
 The scope includes:
 - A Flask-based API for authentication, crypto operations, and RSA key management.
 - A single-page HTML UI served from the backend.
 - In-memory storage for user accounts, session state, and cryptographic keys.
-- Clear configuration for development vs. production security settings.
+- Clear configuration for local development security settings.
 
 The project intentionally excludes persistent databases, file uploads, or external storage to reduce attack surface.
 
@@ -158,14 +158,14 @@ EncryptX/
 - Ensure no proxy or firewall is blocking localhost traffic.
 
 ## Results / Outcomes
-The project delivers a production-ready cryptographic web application with modern encryption algorithms, hardened security controls, and zero data persistence. Users can securely register, authenticate, generate keys, encrypt/decrypt data, and manage imported RSA keys without any sensitive information being stored on disk.
+The project delivers a secure cryptographic web application with modern encryption algorithms, hardened security controls, and zero data persistence. Users can securely register, authenticate, generate keys, encrypt/decrypt data, and manage imported RSA keys without any sensitive information being stored on disk.
 
 ## Why Use SecureCrypt (Advantages)
 - **Security-first defaults**: strong KDF, CSRF protection, rate limiting, and strict headers.
 - **Zero persistence**: sensitive keys and user data never touch disk.
 - **Modern crypto options**: AES-256-GCM and ChaCha20 for recommended usage, RSA for key exchange.
 - **Clear UX**: a single-page UI reduces workflow friction without lowering security.
-- **Production-ready posture**: environment-based config, strict session settings, and safe error handling.
+- **Security-first posture**: strict session settings, and safe error handling.
 
 ## Future Enhancements
 - Add audit logging with strict redaction to avoid sensitive data exposure.
@@ -175,4 +175,4 @@ The project delivers a production-ready cryptographic web application with moder
 - Add a modular UI build pipeline instead of embedded HTML.
 
 ## Conclusion
-SecureCrypt meets the goal of providing a secure, production-grade cryptographic web application that prioritizes strong security defaults, modern encryption, and no persistent storage. The design balances usability with strict security controls, making it suitable for secure workflows where confidentiality is critical.
+SecureCrypt meets the goal of providing a secure cryptographic web application that prioritizes strong security defaults, modern encryption, and no persistent storage. The design balances usability with strict security controls, making it suitable for secure workflows where confidentiality is critical.
