@@ -176,15 +176,7 @@ pip install pycryptodome==3.19.0
 
 ### Error: "SECRET_KEY environment variable must be set"
 
-**Solution:** This only happens if FLASK_ENV=production. Either:
-1. Set the environment variable:
-   ```powershell
-   $env:SECRET_KEY="$(python -c 'import secrets; print(secrets.token_hex(32))')"
-   ```
-2. Or use development mode:
-    ```
-        $env:App_ENV="development"
-    ```
+**Solution:** This application runs in local mode and generates a secure secret key automatically. If you still see this error, ensure no custom configuration is forcing production-only checks.
 ### Error: Port 5000 already in use
 
 **Solution:** Change port in main.py or kill the process:
@@ -245,15 +237,6 @@ app.run(debug=False, host='127.0.0.1', port=5001)
 - [ ] Can logout
 - [ ] Can change password
 
-## Production Deployment
-
-For production deployment, see README.md for:
-- nginx configuration
-- gunicorn setup
-- HTTPS/SSL configuration
-- Environment variables
-- Security hardening
-
 ## Support
 
 If you encounter any issues:
@@ -285,4 +268,3 @@ python -c "import config; print('Config OK')"
 python -c "from flask import Flask; print('Flask OK')"
 python -c "from cryptography.hazmat.primitives import hashes; print('Cryptography OK')"
 ```
-
