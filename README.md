@@ -98,8 +98,8 @@ EncryptX/
 ## How to Use (Quick Guide)
 ### Setup (Development)
 1. Create and activate a virtual environment.
-2. Install dependencies from `requirements.txt`.
-3. Set `APP_ENV=development` for local testing.
+2. Install dependencies from `requirements.txt`. (Command: `pip install -r rerequirements.txt`)
+3. Set `APP_ENV=development` for local testing.(Use: `$env:App_ENV="development"`)
 4. Run the server with `python main.py`.
 5. Open `http://localhost:5000/api` in the browser.
 
