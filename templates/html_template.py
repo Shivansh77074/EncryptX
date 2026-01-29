@@ -4,7 +4,7 @@ HTML_TEMPLATE = '''
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecureCrypt - Production Cryptographic System</title>
+    <title>EncryptX - Secure Cryptographic System</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -240,7 +240,7 @@ HTML_TEMPLATE = '''
             <div class="card">
                 <h1 style="text-align: center; margin-bottom: 10px;">🔒 SecureCrypt</h1>
                 <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">
-                    Production-Grade Cryptographic System
+                    Secure Cryptographic System
                 </p>
                 
                 <div id="notification-auth"></div>
@@ -285,7 +285,7 @@ HTML_TEMPLATE = '''
             <div class="card header">
                 <div>
                     <h1>🔒 SecureCrypt</h1>
-                    <p style="color: #94a3b8;">Production-Grade Cryptographic System</p>
+                    <p style="color: #94a3b8;">Secure Cryptographic System</p>
                 </div>
                 <div class="user-info">
                     <span id="current-user" style="color: #a78bfa; font-weight: 600;"></span>
